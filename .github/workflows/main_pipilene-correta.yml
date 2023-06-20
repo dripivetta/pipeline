@@ -33,6 +33,22 @@ jobs:
         tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_acf5ef9177c34122bb07edd6c12c6db7 }}/pipeline-correta:${{ github.sha }}
         file: ./Dockerfile
 
+  test:
+    runs-on: ubuntu-latest
+
+    steps: 
+    - uses: actions/checkout@v2
+
+    - name: Set up Node.js version
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '18.x'
+    
+    - name: npm install, and test
+      run:
+        npm install
+        npm run test --if-present
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
